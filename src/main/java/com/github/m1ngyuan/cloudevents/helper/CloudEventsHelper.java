@@ -1,7 +1,7 @@
 package com.github.m1ngyuan.cloudevents.helper;
 
 import io.cloudevents.CloudEvent;
-import io.cloudevents.Extension;
+import io.cloudevents.CloudEventExtension;
 import io.cloudevents.SpecVersion;
 import io.cloudevents.core.builder.CloudEventBuilder;
 import io.cloudevents.types.Time;
@@ -14,7 +14,6 @@ import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Optional;
-
 public class CloudEventsHelper {
 
     public static final String CE_ID = "Ce-Id";
@@ -34,13 +33,13 @@ public class CloudEventsHelper {
     }
 
 
-    public static CloudEvent parseFromRequestWithExtension(HttpHeaders headers, Object body, Extension extension){
+    public static CloudEvent parseFromRequestWithExtension(HttpHeaders headers, Object body, CloudEventExtension extension) {
         if (headers.get(CE_ID) == null || (headers.get(CE_SOURCE) == null || headers.get(CE_TYPE) == null)) {
             throw new IllegalStateException("Cloud Event required fields are not present.");
         }
-        Objects.requireNonNull(headers.get(CE_ID),"id fields are not present.");
-        Objects.requireNonNull(headers.get(CE_SOURCE),"source fields are not present.");
-        Objects.requireNonNull(headers.get(CE_TYPE),"type fields are not present.");
+        Objects.requireNonNull(headers.get(CE_ID), "id fields are not present.");
+        Objects.requireNonNull(headers.get(CE_SOURCE), "source fields are not present.");
+        Objects.requireNonNull(headers.get(CE_TYPE), "type fields are not present.");
 
         String spec = headers.getFirst(CE_SPECVERSION);
         SpecVersion version = Objects.nonNull(spec) ? SpecVersion.parse(spec) : SpecVersion.V1;
